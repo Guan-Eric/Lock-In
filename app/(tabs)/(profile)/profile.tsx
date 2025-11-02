@@ -461,7 +461,7 @@ export default function ProfileScreen() {
           </TouchableOpacity>*/}
         </View>
 
-        {/* Premium Section - Commented out
+        {/* Premium Section */}
         <View className="mb-4 px-6">
           <TouchableOpacity onPress={() => router.push('/paywall')} activeOpacity={0.9}>
             <LinearGradient
@@ -473,14 +473,14 @@ export default function ProfileScreen() {
                 <View className="flex-1">
                   <Text className="mb-1 text-base font-bold text-white">⭐ Upgrade to Premium</Text>
                   <Text className="text-xs text-white opacity-90">
-                    Unlock custom timers, themes & more
+                    Unlock custom timers, unlimited sessions & more
                   </Text>
                 </View>
                 <Text className="text-2xl text-white">›</Text>
               </View>
             </LinearGradient>
           </TouchableOpacity>
-        </View>*/}
+        </View>
 
         {/* More Section */}
         <View className="mb-4 px-6">

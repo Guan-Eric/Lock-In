@@ -16,6 +16,9 @@ export default {
     ios: {
       bundleIdentifier: 'com.guaneric.lockin',
       supportsTablet: true,
+      infoPlist: {
+        ITSAppUsesNonExemptEncryption: false,
+      },
     },
     android: {
       adaptiveIcon: {

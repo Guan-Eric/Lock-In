@@ -11,11 +11,12 @@ import {
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { LineChart, BarChart } from 'react-native-chart-kit';
-import { useFocusEffect } from 'expo-router';
+import { useFocusEffect, router } from 'expo-router';
 import { AuthService } from '../../../services/authService';
 import { UserData } from '../../../types/user';
 import { getSessionDataForPeriod } from '../../../services/stats';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSubscription } from '../../../hooks/useSubscription';
 
 type TimePeriod = 'week' | 'month' | 'year' | 'all';
 
@@ -24,6 +25,7 @@ export default function StatsScreen() {
   const [chartData, setChartData] = useState<any>(null);
   const [loadingChart, setLoadingChart] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
+  const { hasPro, loading: loadingSubscription } = useSubscription();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -351,6 +353,53 @@ export default function StatsScreen() {
           </View>
         </ScrollView>
       </SafeAreaView>
+      {/* Locked Overlay for Non-Pro Users */}
+      {!hasPro && !loadingSubscription && (
+        <View className="absolute inset-0 items-center justify-center bg-black/60">
+          <View className="mx-8 rounded-3xl bg-white p-8">
+            <View className="mb-6 items-center">
+              <View className="mb-4 h-20 w-20 items-center justify-center rounded-full bg-warning-100">
+                <Text className="text-5xl">🔒</Text>
+              </View>
+              <Text className="mb-2 text-center text-2xl font-bold text-slate-900">
+                Unlock Detailed Stats
+              </Text>
+              <Text className="text-center text-base text-slate-600">
+                Upgrade to Pro to see your complete focus journey, detailed analytics, and advanced
+                insights.
+              </Text>
+            </View>
+            <View className="gap-3">
+              <View className="flex-row items-center">
+                <Text className="mr-3 text-2xl">✓</Text>
+                <Text className="text-base text-slate-700">Advanced analytics & trends</Text>
+              </View>
+              <View className="flex-row items-center">
+                <Text className="mr-3 text-2xl">✓</Text>
+                <Text className="text-base text-slate-700">Historical data insights</Text>
+              </View>
+              <View className="flex-row items-center">
+                <Text className="mr-3 text-2xl">✓</Text>
+                <Text className="text-base text-slate-700">Export progress reports</Text>
+              </View>
+            </View>
+            <TouchableOpacity
+              onPress={() => router.push('/(tabs)/(stats)/paywall')}
+              activeOpacity={0.9}
+              className="mt-6 overflow-hidden rounded-3xl">
+              <LinearGradient
+                colors={['#fbbf24', '#f59e0b']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                className="">
+                <Text className="py-4 text-center text-lg font-bold text-white">
+                  Upgrade to Pro
+                </Text>
+              </LinearGradient>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
     </View>
   );
 }

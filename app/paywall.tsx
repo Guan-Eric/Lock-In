@@ -93,6 +93,14 @@ export default function PaywallScreen() {
           className="flex-1"
           contentContainerStyle={{ paddingBottom: 100 }}
           showsVerticalScrollIndicator={false}>
+          {/* Close Button */}
+          <View className="flex-row justify-end px-6 pt-6">
+            <TouchableOpacity
+              onPress={() => completeOnboarding(auth.currentUser?.uid as string)}
+              className="h-10 w-10 items-center justify-center">
+              <Text className="text-2xl text-slate-600">✕</Text>
+            </TouchableOpacity>
+          </View>
           {/* Header */}
           <View className="items-center px-8 pb-12">
             <View className="mb-6 h-24 w-24 items-center justify-center rounded-full bg-warning-100">
@@ -136,7 +144,6 @@ export default function PaywallScreen() {
               <View className="mb-2 flex-row items-center justify-between">
                 <View>
                   <View className="mb-1 flex-row items-center gap-2">
-                    // app/paywall.tsx (continued)
                     <Text
                       className={`text-lg font-bold ${
                         selectedPackage === 'annual' ? 'text-primary-900' : 'text-slate-900'

@@ -11,13 +11,8 @@ import Constants from 'expo-constants';
 function Index() {
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    // Configure RevenueCat once at startup
-    Purchases.configure({ apiKey: Constants.expoConfig?.extra?.revenueCatIos });
-  }, []);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+  const checkFirstLaunch = async () => {
+    onAuthStateChanged(auth, async (user) => {
       try {
         if (!user) {
           // No user - navigate after interactions complete
@@ -28,7 +23,6 @@ function Index() {
           return;
         }
 
-        // User exists - check onboarding status
         const userRef = doc(db, 'users', user.uid);
         const userDoc = await getDoc(userRef);
 
@@ -71,11 +65,16 @@ function Index() {
         });
       }
     });
+  };
 
-    // Cleanup listener
-    return () => unsubscribe();
-  }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      Purchases.configure({ apiKey: Constants.expoConfig?.extra?.revenueCatIos });
+      await checkFirstLaunch();
+    };
 
+    fetchData();
+  });
   if (loading) {
     return (
       <View className="flex-1 items-center justify-center bg-white">

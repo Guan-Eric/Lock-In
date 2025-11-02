@@ -38,11 +38,7 @@ export default function SetGoalScreen() {
 
       {/* Header */}
       <View className="flex-row items-center justify-between px-6 pt-16">
-        <TouchableOpacity
-          onPress={() => router.back()}
-          className="h-10 w-10 items-center justify-center">
-          <Text className="text-2xl text-slate-600">←</Text>
-        </TouchableOpacity>
+        <TouchableOpacity className="h-10 w-10 items-center justify-center"></TouchableOpacity>
 
         <TouchableOpacity onPress={() => router.push('/why-lock-in')}>
           <Text className="text-base font-bold text-primary-500">Skip</Text>

@@ -84,7 +84,7 @@ export class RewardService {
       const maintainedStreak = currentStreak > 0 && sessionsToday > 0;
       quests.push({
         id: 'maintain-streak',
-        title: `Maintain your ${currentStreak}-day streak`,
+        title: `Maintain your streak`,
         description: 'Complete at least one session to keep your streak alive',
         type: 'daily',
         difficulty: 'easy',
@@ -122,6 +122,27 @@ export class RewardService {
       return totalMinutes;
     } catch (error) {
       console.error(`[RewardService.getTodaySessionMinutes] Error for user ${userId}:`, error);
+      throw error;
+    }
+  }
+
+  // Get count of sessions completed today
+  public static async getTodaySessionCount(userId: string): Promise<number> {
+    try {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      const sessionsRef = collection(db, 'sessions');
+      const q = query(
+        sessionsRef,
+        where('userId', '==', userId),
+        where('timestamp', '>=', Timestamp.fromDate(today))
+      );
+
+      const snapshot = await getDocs(q);
+      return snapshot.size;
+    } catch (error) {
+      console.error(`[RewardService.getTodaySessionCount] Error for user ${userId}:`, error);
       throw error;
     }
   }
@@ -433,7 +454,7 @@ export class RewardService {
   }
 
   // Check if this is the first session today
-  private static async isFirstSessionToday(userId: string): Promise<boolean> {
+  public static async isFirstSessionToday(userId: string): Promise<boolean> {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
