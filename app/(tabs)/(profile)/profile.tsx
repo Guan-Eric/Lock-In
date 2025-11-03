@@ -21,17 +21,27 @@ import { getLevelFromXP } from '../../../utils/levelingSystem';
 import * as Notifications from 'expo-notifications';
 import * as StoreReview from 'expo-store-review';
 import { UserData } from '../../../types/user';
+import Purchases from 'react-native-purchases';
 
 export default function ProfileScreen() {
   const router = useRouter();
   const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
-
+  const [hasPro, setHasPro] = useState(false);
   const user = auth.currentUser;
 
   const [notifications, setNotifications] = useState(true);
   const [dailyCheckIn, setDailyCheckIn] = useState(true);
 
+  useEffect(() => {
+    const checkSubscription = async () => {
+      const customerInfo = await Purchases.getCustomerInfo();
+      if (customerInfo.entitlements.active['Pro']) {
+        setHasPro(true);
+      }
+    };
+    checkSubscription();
+  });
   // Listen to user data
   useEffect(() => {
     if (!user) {
@@ -462,25 +472,29 @@ export default function ProfileScreen() {
         </View>
 
         {/* Premium Section */}
-        <View className="mb-4 px-6">
-          <TouchableOpacity onPress={() => router.push('/paywall')} activeOpacity={0.9}>
-            <LinearGradient
-              colors={['#fbbf24', '#f59e0b']}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-              style={{ borderRadius: 16, padding: 20 }}>
-              <View className="flex-row items-center">
-                <View className="flex-1">
-                  <Text className="mb-1 text-base font-bold text-white">⭐ Upgrade to Premium</Text>
-                  <Text className="text-xs text-white opacity-90">
-                    Unlock custom timers, unlimited sessions & more
-                  </Text>
+        {!hasPro && (
+          <View className="mb-4 px-6">
+            <TouchableOpacity onPress={() => router.push('/paywall')} activeOpacity={0.9}>
+              <LinearGradient
+                colors={['#fbbf24', '#f59e0b']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={{ borderRadius: 16, padding: 20 }}>
+                <View className="flex-row items-center">
+                  <View className="flex-1">
+                    <Text className="mb-1 text-base font-bold text-white">
+                      ⭐ Upgrade to Premium
+                    </Text>
+                    <Text className="text-xs text-white opacity-90">
+                      Unlock custom timers, unlimited sessions & more
+                    </Text>
+                  </View>
+                  <Text className="text-2xl text-white">›</Text>
                 </View>
-                <Text className="text-2xl text-white">›</Text>
-              </View>
-            </LinearGradient>
-          </TouchableOpacity>
-        </View>
+              </LinearGradient>
+            </TouchableOpacity>
+          </View>
+        )}
 
         {/* More Section */}
         <View className="mb-4 px-6">

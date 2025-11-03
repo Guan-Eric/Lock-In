@@ -4,9 +4,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import ToggleSwitch from '../../../components/ToggleSwitch';
 import ExitButton from '../../../components/ExitButton';
-import { useSubscription } from '../../../hooks/useSubscription';
 import { RewardService } from '../../../services/rewardSystem';
 import { auth } from '../../../firebase';
+import Purchases from 'react-native-purchases';
 
 export default function FocusSession() {
   const durations = [15, 25, 50];
@@ -14,9 +14,9 @@ export default function FocusSession() {
   const [duration, setDuration] = useState(25);
   const [showCustomModal, setShowCustomModal] = useState(false);
   const [customDuration, setCustomDuration] = useState('');
-  const { hasPro, loading: loadingSubscription } = useSubscription();
   const [sessionsToday, setSessionsToday] = useState(0);
   const [loadingSessions, setLoadingSessions] = useState(true);
+  const [hasPro, setHasPro] = useState(false);
 
   useEffect(() => {
     const fetchTodaySessions = async () => {
@@ -31,6 +31,15 @@ export default function FocusSession() {
         }
       }
     };
+    const checkSubscription = async () => {
+      const customerInfo = await Purchases.getCustomerInfo();
+      if (customerInfo.entitlements.active['Pro']) {
+        setHasPro(true);
+      } else {
+        router.push('/(tabs)/(home)/paywall');
+      }
+    };
+    checkSubscription();
     fetchTodaySessions();
   }, []);
 

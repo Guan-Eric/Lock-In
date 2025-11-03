@@ -16,7 +16,7 @@ import { AuthService } from '../../../services/authService';
 import { UserData } from '../../../types/user';
 import { getSessionDataForPeriod } from '../../../services/stats';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useSubscription } from '../../../hooks/useSubscription';
+import Purchases from 'react-native-purchases';
 
 type TimePeriod = 'week' | 'month' | 'year' | 'all';
 
@@ -25,13 +25,20 @@ export default function StatsScreen() {
   const [chartData, setChartData] = useState<any>(null);
   const [loadingChart, setLoadingChart] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
-  const { hasPro, loading: loadingSubscription } = useSubscription();
+  const [hasPro, setHasPro] = useState(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
       const data = await AuthService.getCurrentUserData();
       setUserData(data);
     };
+    const checkSubscription = async () => {
+      const customerInfo = await Purchases.getCustomerInfo();
+      if (customerInfo.entitlements.active['Pro']) {
+        setHasPro(true);
+      }
+    };
+    checkSubscription();
     fetchUserData();
   }, []);
 
@@ -354,7 +361,7 @@ export default function StatsScreen() {
         </ScrollView>
       </SafeAreaView>
       {/* Locked Overlay for Non-Pro Users */}
-      {!hasPro && !loadingSubscription && (
+      {!hasPro && (
         <View className="absolute inset-0 items-center justify-center bg-black/60">
           <View className="mx-8 rounded-3xl bg-white p-8">
             <View className="mb-6 items-center">

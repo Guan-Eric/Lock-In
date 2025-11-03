@@ -9,7 +9,7 @@ import { auth, db } from '../../../firebase';
 import { UserData } from '../../../types/user';
 import { AuthService } from '../../../services/authService';
 
-export default function DDailyGoalScreen() {
+export default function DailyGoalScreen() {
   const router = useRouter();
   const user = auth.currentUser;
   const [screenTimeGoal, setScreenTimeGoal] = useState<number>(3);

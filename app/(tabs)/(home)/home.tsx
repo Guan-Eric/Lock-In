@@ -16,6 +16,7 @@ import { auth } from '../../../firebase';
 import { DailyQuest } from '../../../types/rewards';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { getLevelFromXP } from '../../../utils/levelingSystem';
+import Purchases from 'react-native-purchases';
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -77,6 +78,13 @@ export default function HomeScreen() {
 
       setDailyQuests(displayQuests);
     };
+    const checkSubscription = async () => {
+      const customerInfo = await Purchases.getCustomerInfo();
+      if (!customerInfo.entitlements.active['Pro']) {
+        router.push('/(tabs)/(home)/paywall');
+      }
+    };
+    checkSubscription();
     fetchDailyQuests();
   }, [sessionsToday, screenTimeToday, xpToday, currentStreak, screenTimeGoal]);
 

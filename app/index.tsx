@@ -48,7 +48,8 @@ function Index() {
         // ✅ Check subscription via RevenueCat
         const customerInfo = await Purchases.getCustomerInfo();
         const hasPro = !!customerInfo.entitlements.active['Pro'];
-
+        console.log('hasPro', hasPro);
+        console.log('customerInfo', customerInfo);
         InteractionManager.runAfterInteractions(() => {
           if (hasPro) {
             router.replace('/(tabs)/(home)/home');
