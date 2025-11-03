@@ -31,7 +31,19 @@ export default {
     web: {
       favicon: './assets/lock-in-icon.jpg',
     },
-    plugins: ['expo-router'],
+    plugins: [
+      'expo-router',
+      [
+        'expo-splash-screen',
+        {
+          image: './assets/lock-in-icon.jpg',
+          imageWidth: 200,
+          resizeMode: 'contain',
+          backgroundColor: '#ffffff',
+        },
+      ],
+      ['expo-notifications', {}],
+    ],
     extra: {
       firebaseApiKey: process.env.FIREBASE_API_KEY,
       authDomain: process.env.AUTH_DOMAIN,

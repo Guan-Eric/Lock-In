@@ -74,7 +74,8 @@ function Index() {
     };
 
     fetchData();
-  });
+  }, []);
+
   if (loading) {
     return (
       <View className="flex-1 items-center justify-center bg-white">
