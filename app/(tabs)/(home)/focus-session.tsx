@@ -190,7 +190,11 @@ export default function FocusSession() {
         <Pressable
           className="flex-1 items-center justify-center bg-black/50"
           onPress={() => setShowCustomModal(false)}>
-          <Pressable className="w-80 rounded-3xl bg-white p-6" onPress={(e) => e.stopPropagation()}>
+          <Pressable
+            className="w-80 rounded-3xl bg-white p-6"
+            onPress={(event) => {
+              event.stopPropagation && event.stopPropagation();
+            }}>
             <Text className="mb-2 text-center text-2xl font-bold text-slate-800">
               Custom Duration
             </Text>

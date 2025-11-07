@@ -1,5 +1,5 @@
 {
-  "cesVersion": "2.14.3",
+  "cesVersion": "2.20.1",
   "projectName": "my-expo-app",
   "packages": [
     {
@@ -24,6 +24,6 @@
     "type": "Windows_NT",
     "platform": "win32",
     "arch": "x64",
-    "kernelVersion": "10.0.26100"
+    "kernelVersion": "10.0.26200"
   }
 }

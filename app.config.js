@@ -7,8 +7,6 @@ export default {
     orientation: 'portrait',
     icon: './assets/lock-in-icon.jpg',
     userInterfaceStyle: 'light',
-    newArchEnabled: true,
-    jsEngine: 'jsc',
     splash: {
       image: './assets/lock-in-icon.jpg',
       resizeMode: 'contain',

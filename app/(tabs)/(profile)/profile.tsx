@@ -22,6 +22,7 @@ import * as Notifications from 'expo-notifications';
 import * as StoreReview from 'expo-store-review';
 import { UserData } from '../../../types/user';
 import Purchases from 'react-native-purchases';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function ProfileScreen() {
   const router = useRouter();
@@ -331,53 +332,54 @@ export default function ProfileScreen() {
 
   return (
     <View className="flex-1 bg-white">
-      <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
-        {/* Header */}
-        <View className="px-6 pb-4 pt-16">
-          <Text className="text-2xl font-bold text-slate-900">Profile</Text>
-        </View>
+      <SafeAreaView className="flex-1">
+        <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
+          {/* Header */}
+          <View className="px-6 pt-6 pb-4">
+            <Text className="text-2xl font-bold text-slate-900">Profile</Text>
+          </View>
 
-        {/* Profile Card */}
-        <View className="mx-6 mb-6">
-          <LinearGradient
-            colors={['#3b82f6', '#2563eb']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={{ borderRadius: 20, padding: 24 }}>
-            {/* Avatar */}
-            <View className="mb-4 items-center">
-              <View className="mb-3 h-20 w-20 items-center justify-center rounded-full bg-white">
-                <Text className="text-5xl">{userData.titleEmoji || '🌱'}</Text>
-              </View>
-              <Text className="text-xl font-bold text-white">
-                {userData.email || user.email || 'Anonymous User'}
-              </Text>
-              <Text className="mt-1 text-sm text-white opacity-90">
-                {userData.title} • Level {userData.level}
-              </Text>
-            </View>
-
-            {/* Stats Row */}
-            <View className="mt-4 flex-row justify-around">
-              <View className="items-center">
-                <Text className="text-2xl font-bold text-white">{userData.streak || 0}</Text>
-                <Text className="mt-1 text-xs text-white opacity-85">Day Streak</Text>
-              </View>
-              <View className="items-center">
-                <Text className="text-2xl font-bold text-white">{userData.totalXP || 0}</Text>
-                <Text className="mt-1 text-xs text-white opacity-85">Total XP</Text>
-              </View>
-              <View className="items-center">
-                <Text className="text-2xl font-bold text-white">
-                  {userData.badges?.length || 0}
+          {/* Profile Card */}
+          <View className="mx-6 mb-6">
+            <LinearGradient
+              colors={['#3b82f6', '#2563eb']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={{ borderRadius: 20, padding: 24 }}>
+              {/* Avatar */}
+              <View className="mb-4 items-center">
+                <View className="mb-3 h-20 w-20 items-center justify-center rounded-full bg-white">
+                  <Text className="text-5xl">{userData.titleEmoji || '🌱'}</Text>
+                </View>
+                <Text className="text-xl font-bold text-white">
+                  {userData.email || user.email || 'Anonymous User'}
                 </Text>
-                <Text className="mt-1 text-xs text-white opacity-85">Badges</Text>
+                <Text className="mt-1 text-sm text-white opacity-90">
+                  {userData.title} • Level {userData.level}
+                </Text>
               </View>
-            </View>
-          </LinearGradient>
-        </View>
 
-        {/* Anonymous Account Warning
+              {/* Stats Row */}
+              <View className="mt-4 flex-row justify-around">
+                <View className="items-center">
+                  <Text className="text-2xl font-bold text-white">{userData.streak || 0}</Text>
+                  <Text className="mt-1 text-xs text-white opacity-85">Day Streak</Text>
+                </View>
+                <View className="items-center">
+                  <Text className="text-2xl font-bold text-white">{userData.totalXP || 0}</Text>
+                  <Text className="mt-1 text-xs text-white opacity-85">Total XP</Text>
+                </View>
+                <View className="items-center">
+                  <Text className="text-2xl font-bold text-white">
+                    {userData.badges?.length || 0}
+                  </Text>
+                  <Text className="mt-1 text-xs text-white opacity-85">Badges</Text>
+                </View>
+              </View>
+            </LinearGradient>
+          </View>
+
+          {/* Anonymous Account Warning
         {user.isAnonymous && (
           <View className="mx-6 mb-6">
             <TouchableOpacity
@@ -401,62 +403,64 @@ export default function ProfileScreen() {
         )}
 
         {/* Settings Section */}
-        <View className="mb-4 px-6">
-          <Text className="mb-3 text-base font-bold text-slate-900">Settings</Text>
+          <View className="mb-4 px-6">
+            <Text className="mb-3 text-base font-bold text-slate-900">Settings</Text>
 
-          {/* Daily Goal */}
-          <TouchableOpacity
-            onPress={() => router.push('/(tabs)/(profile)/daily-goal')}
-            className="mb-3 flex-row items-center rounded-2xl bg-slate-50 p-4">
-            <View className="mr-4 h-10 w-10 items-center justify-center rounded-full bg-primary-100">
-              <Text className="text-xl">🎯</Text>
-            </View>
-            <View className="flex-1">
-              <Text className="mb-1 text-sm font-bold text-slate-900">Daily Screen Time Goal</Text>
-              <Text className="text-xs text-slate-600">
-                {userData.settings?.screenTimeGoal || 2} hours per day
-              </Text>
-            </View>
-            <Text className="text-lg text-slate-400">›</Text>
-          </TouchableOpacity>
+            {/* Daily Goal */}
+            <TouchableOpacity
+              onPress={() => router.push('/(tabs)/(profile)/daily-goal')}
+              className="mb-3 flex-row items-center rounded-2xl bg-slate-50 p-4">
+              <View className="bg-primary-100 mr-4 h-10 w-10 items-center justify-center rounded-full">
+                <Text className="text-xl">🎯</Text>
+              </View>
+              <View className="flex-1">
+                <Text className="mb-1 text-sm font-bold text-slate-900">
+                  Daily Screen Time Goal
+                </Text>
+                <Text className="text-xs text-slate-600">
+                  {userData.settings?.screenTimeGoal || 2} hours per day
+                </Text>
+              </View>
+              <Text className="text-lg text-slate-400">›</Text>
+            </TouchableOpacity>
 
-          {/* Notifications */}
-          <View className="mb-3 flex-row items-center rounded-2xl bg-slate-50 p-4">
-            <View className="mr-4 h-10 w-10 items-center justify-center rounded-full bg-success-100">
-              <Text className="text-xl">🔔</Text>
+            {/* Notifications */}
+            <View className="mb-3 flex-row items-center rounded-2xl bg-slate-50 p-4">
+              <View className="bg-success-100 mr-4 h-10 w-10 items-center justify-center rounded-full">
+                <Text className="text-xl">🔔</Text>
+              </View>
+              <View className="flex-1">
+                <Text className="mb-1 text-sm font-bold text-slate-900">Push Notifications</Text>
+                <Text className="text-xs text-slate-600">Announcements and updates</Text>
+              </View>
+              <Switch
+                value={notifications}
+                onValueChange={handleToggleNotifications}
+                trackColor={{ false: '#cbd5e1', true: '#3b82f6' }}
+                thumbColor={notifications ? '#fff' : '#f1f5f9'}
+              />
             </View>
-            <View className="flex-1">
-              <Text className="mb-1 text-sm font-bold text-slate-900">Push Notifications</Text>
-              <Text className="text-xs text-slate-600">Announcements and updates</Text>
-            </View>
-            <Switch
-              value={notifications}
-              onValueChange={handleToggleNotifications}
-              trackColor={{ false: '#cbd5e1', true: '#3b82f6' }}
-              thumbColor={notifications ? '#fff' : '#f1f5f9'}
-            />
-          </View>
 
-          {/* Daily Check-in */}
-          <View className="mb-3 flex-row items-center rounded-2xl bg-slate-50 p-4">
-            <View className="mr-4 h-10 w-10 items-center justify-center rounded-full bg-warning-100">
-              <Text className="text-xl">✅</Text>
+            {/* Daily Check-in */}
+            <View className="mb-3 flex-row items-center rounded-2xl bg-slate-50 p-4">
+              <View className="bg-warning-100 mr-4 h-10 w-10 items-center justify-center rounded-full">
+                <Text className="text-xl">✅</Text>
+              </View>
+              <View className="flex-1">
+                <Text className="mb-1 text-sm font-bold text-slate-900">
+                  Daily Check-in Reminders
+                </Text>
+                <Text className="text-xs text-slate-600">Remind me to log my progress</Text>
+              </View>
+              <Switch
+                value={dailyCheckIn}
+                onValueChange={handleToggleDailyCheckIn}
+                trackColor={{ false: '#cbd5e1', true: '#3b82f6' }}
+                thumbColor={dailyCheckIn ? '#fff' : '#f1f5f9'}
+              />
             </View>
-            <View className="flex-1">
-              <Text className="mb-1 text-sm font-bold text-slate-900">
-                Daily Check-in Reminders
-              </Text>
-              <Text className="text-xs text-slate-600">Remind me to log my progress</Text>
-            </View>
-            <Switch
-              value={dailyCheckIn}
-              onValueChange={handleToggleDailyCheckIn}
-              trackColor={{ false: '#cbd5e1', true: '#3b82f6' }}
-              thumbColor={dailyCheckIn ? '#fff' : '#f1f5f9'}
-            />
-          </View>
 
-          {/* Account 
+            {/* Account 
           <TouchableOpacity
             onPress={() => router.push('/(tabs)/(profile)/account')}
             className="mb-3 flex-row items-center rounded-2xl bg-slate-50 p-4">
@@ -469,88 +473,91 @@ export default function ProfileScreen() {
             </View>
             <Text className="text-lg text-slate-400">›</Text>
           </TouchableOpacity>*/}
-        </View>
+          </View>
 
-        {/* Premium Section */}
-        {!hasPro && (
-          <View className="mb-4 px-6">
-            <TouchableOpacity onPress={() => router.push('/paywall')} activeOpacity={0.9}>
-              <LinearGradient
-                colors={['#fbbf24', '#f59e0b']}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
-                style={{ borderRadius: 16, padding: 20 }}>
-                <View className="flex-row items-center">
-                  <View className="flex-1">
-                    <Text className="mb-1 text-base font-bold text-white">
-                      ⭐ Upgrade to Premium
-                    </Text>
-                    <Text className="text-xs text-white opacity-90">
-                      Unlock custom timers, unlimited sessions & more
-                    </Text>
+          {/* Premium Section */}
+          {!hasPro && (
+            <View className="mb-4 px-6">
+              <TouchableOpacity onPress={() => router.push('/paywall')} activeOpacity={0.9}>
+                <LinearGradient
+                  colors={['#fbbf24', '#f59e0b']}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 1 }}
+                  style={{ borderRadius: 16, padding: 20 }}>
+                  <View className="flex-row items-center">
+                    <View className="flex-1">
+                      <Text className="mb-1 text-base font-bold text-white">
+                        ⭐ Upgrade to Premium
+                      </Text>
+                      <Text className="text-xs text-white opacity-90">
+                        Unlock custom timers, unlimited sessions & more
+                      </Text>
+                    </View>
+                    <Text className="text-2xl text-white">›</Text>
                   </View>
-                  <Text className="text-2xl text-white">›</Text>
-                </View>
-              </LinearGradient>
+                </LinearGradient>
+              </TouchableOpacity>
+            </View>
+          )}
+
+          {/* More Section */}
+          <View className="mb-4 px-6">
+            <Text className="mb-3 text-base font-bold text-slate-900">More</Text>
+
+            <TouchableOpacity
+              onPress={handleHelpSupport}
+              className="mb-3 flex-row items-center rounded-2xl bg-slate-50 p-4">
+              <Text className="flex-1 text-sm text-slate-900">Help & Support</Text>
+              <Text className="text-lg text-slate-400">›</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={handlePrivacyPolicy}
+              className="mb-3 flex-row items-center rounded-2xl bg-slate-50 p-4">
+              <Text className="flex-1 text-sm text-slate-900">Privacy Policy</Text>
+              <Text className="text-lg text-slate-400">›</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={handleTermsOfService}
+              className="mb-3 flex-row items-center rounded-2xl bg-slate-50 p-4">
+              <Text className="flex-1 text-sm text-slate-900">Terms of Service</Text>
+              <Text className="text-lg text-slate-400">›</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={handleRateApp}
+              className="mb-3 flex-row items-center rounded-2xl bg-slate-50 p-4">
+              <Text className="flex-1 text-sm text-slate-900">Rate Lock In</Text>
+              <Text className="text-lg text-slate-400">›</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={handleShareApp}
+              className="mb-3 flex-row items-center rounded-2xl bg-slate-50 p-4">
+              <Text className="flex-1 text-sm text-slate-900">Share with Friends</Text>
+              <Text className="text-lg text-slate-400">›</Text>
             </TouchableOpacity>
           </View>
-        )}
 
-        {/* More Section */}
-        <View className="mb-4 px-6">
-          <Text className="mb-3 text-base font-bold text-slate-900">More</Text>
+          {/* App Info */}
+          <View className="mb-4 px-6">
+            <Text className="mb-2 text-center text-xs text-slate-400">Lock In v1.0.0</Text>
+            <Text className="mb-6 text-center text-xs text-slate-400">
+              Made with ❤️ for focused minds
+            </Text>
+          </View>
 
-          <TouchableOpacity
-            onPress={handleHelpSupport}
-            className="mb-3 flex-row items-center rounded-2xl bg-slate-50 p-4">
-            <Text className="flex-1 text-sm text-slate-900">Help & Support</Text>
-            <Text className="text-lg text-slate-400">›</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={handlePrivacyPolicy}
-            className="mb-3 flex-row items-center rounded-2xl bg-slate-50 p-4">
-            <Text className="flex-1 text-sm text-slate-900">Privacy Policy</Text>
-            <Text className="text-lg text-slate-400">›</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={handleTermsOfService}
-            className="mb-3 flex-row items-center rounded-2xl bg-slate-50 p-4">
-            <Text className="flex-1 text-sm text-slate-900">Terms of Service</Text>
-            <Text className="text-lg text-slate-400">›</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={handleRateApp}
-            className="mb-3 flex-row items-center rounded-2xl bg-slate-50 p-4">
-            <Text className="flex-1 text-sm text-slate-900">Rate Lock In</Text>
-            <Text className="text-lg text-slate-400">›</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={handleShareApp}
-            className="mb-3 flex-row items-center rounded-2xl bg-slate-50 p-4">
-            <Text className="flex-1 text-sm text-slate-900">Share with Friends</Text>
-            <Text className="text-lg text-slate-400">›</Text>
-          </TouchableOpacity>
-        </View>
-
-        {/* App Info */}
-        <View className="mb-4 px-6">
-          <Text className="mb-2 text-center text-xs text-slate-400">Lock In v1.0.0</Text>
-          <Text className="mb-6 text-center text-xs text-slate-400">
-            Made with ❤️ for focused minds
-          </Text>
-        </View>
-
-        {/* Delete Account */}
-        <View className="mb-24 px-6">
-          <TouchableOpacity onPress={handleDeleteAccount} className="rounded-2xl bg-slate-100 p-4">
-            <Text className="text-center text-sm font-bold text-slate-900">Delete Account</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+          {/* Delete Account */}
+          <View className="mb-24 px-6">
+            <TouchableOpacity
+              onPress={handleDeleteAccount}
+              className="rounded-2xl bg-slate-100 p-4">
+              <Text className="text-center text-sm font-bold text-slate-900">Delete Account</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </SafeAreaView>
     </View>
   );
 }

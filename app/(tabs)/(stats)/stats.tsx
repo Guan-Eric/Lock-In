@@ -26,21 +26,25 @@ export default function StatsScreen() {
   const [loadingChart, setLoadingChart] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [hasPro, setHasPro] = useState(false);
-
+  const checkSubscription = async () => {
+    const customerInfo = await Purchases.getCustomerInfo();
+    if (customerInfo.entitlements.active['Pro']) {
+      setHasPro(true);
+    }
+  };
   useEffect(() => {
     const fetchUserData = async () => {
       const data = await AuthService.getCurrentUserData();
       setUserData(data);
     };
-    const checkSubscription = async () => {
-      const customerInfo = await Purchases.getCustomerInfo();
-      if (customerInfo.entitlements.active['Pro']) {
-        setHasPro(true);
-      }
-    };
+
     checkSubscription();
     fetchUserData();
   }, []);
+
+  useFocusEffect(() => {
+    checkSubscription();
+  });
 
   const [selectedPeriod, setSelectedPeriod] = useState<TimePeriod>('week');
 

@@ -14,9 +14,8 @@ import * as Haptics from 'expo-haptics';
 import { LinearGradient } from 'expo-linear-gradient';
 import ConfettiCannon from 'react-native-confetti-cannon';
 import { UserData } from '../../../types/user';
-import { auth } from '../../../firebase';
+import { auth, db } from '../../../firebase';
 import { doc, onSnapshot } from 'firebase/firestore';
-import { db } from '../../../firebase';
 import { getLevelFromXP } from '../../../utils/levelingSystem';
 import { RewardService } from '../../../services/rewardSystem';
 import { Badge } from '../../../types/rewards';
@@ -149,6 +148,7 @@ export default function SessionComplete() {
 
   const handleDone = () => {
     router.push('/(tabs)/(home)/home');
+    router.push('/(tabs)/(home)/paywall');
   };
 
   const handleStartAnother = () => {

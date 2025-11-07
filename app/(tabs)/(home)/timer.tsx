@@ -97,7 +97,7 @@ export default function ActiveSession() {
   };
 
   const handleGiveUp = () => {
-    Alert.alert('⚠️ Give Up?', "You'll lose 5 XP and your progress won't count. Are you sure?", [
+    Alert.alert('⚠️ Give Up?', "You won't gain XP and you will lose your progress. Are you sure?", [
       {
         text: 'Keep Going',
         style: 'cancel',
@@ -122,7 +122,7 @@ export default function ActiveSession() {
   };
 
   return (
-    <View className="flex-1 bg-dark-bg">
+    <View className="bg-dark-bg flex-1">
       <StatusBar barStyle="light-content" />
 
       {/* Header with exit button */}
@@ -165,14 +165,14 @@ export default function ActiveSession() {
           {/* Time display */}
           <View className="absolute items-center justify-center">
             <Text className="text-7xl font-bold text-white">{formatTime(timeLeft)}</Text>
-            <Text className="mt-2 text-sm text-dark-text-secondary">remaining</Text>
+            <Text className="text-dark-text-secondary mt-2 text-sm">remaining</Text>
           </View>
         </View>
       </View>
 
       {/* Motivational Quote */}
-      <View className="mx-6 mb-6 rounded-2xl bg-dark-surface p-5">
-        <Text className="text-center text-xs italic leading-5 text-dark-text-secondary">
+      <View className="bg-dark-surface mx-6 mb-6 rounded-2xl p-5">
+        <Text className="text-dark-text-secondary text-center text-xs leading-5 italic">
           "Focus is the gateway to thinking clearly, learning quickly, and producing great results."
         </Text>
       </View>
@@ -180,15 +180,15 @@ export default function ActiveSession() {
       {/* Stats Row */}
       <View className="mx-6 mb-6 flex-row gap-4">
         {/* XP Earning */}
-        <View className="flex-1 items-center rounded-xl bg-dark-surface p-4">
-          <Text className="mb-2 text-xs text-dark-text-secondary">XP Earning</Text>
-          <Text className="text-xl font-bold text-success-500">+{xpEarned}</Text>
+        <View className="bg-dark-surface flex-1 items-center rounded-xl p-4">
+          <Text className="text-dark-text-secondary mb-2 text-xs">XP Earning</Text>
+          <Text className="text-success-500 text-xl font-bold">+{xpEarned}</Text>
         </View>
 
         {/* Sessions Today */}
-        <View className="flex-1 items-center rounded-xl bg-dark-surface p-4">
-          <Text className="mb-2 text-xs text-dark-text-secondary">Sessions Today</Text>
-          <Text className="text-xl font-bold text-primary-400">
+        <View className="bg-dark-surface flex-1 items-center rounded-xl p-4">
+          <Text className="text-dark-text-secondary mb-2 text-xs">Sessions Today</Text>
+          <Text className="text-primary-400 text-xl font-bold">
             {userData?.stats?.sessionsToday || 0}
           </Text>
         </View>
