@@ -335,7 +335,7 @@ export default function ProfileScreen() {
       <SafeAreaView className="flex-1">
         <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
           {/* Header */}
-          <View className="px-6 pt-6 pb-4">
+          <View className="px-6 pb-4 pt-6">
             <Text className="text-2xl font-bold text-slate-900">Profile</Text>
           </View>
 
@@ -410,7 +410,7 @@ export default function ProfileScreen() {
             <TouchableOpacity
               onPress={() => router.push('/(tabs)/(profile)/daily-goal')}
               className="mb-3 flex-row items-center rounded-2xl bg-slate-50 p-4">
-              <View className="bg-primary-100 mr-4 h-10 w-10 items-center justify-center rounded-full">
+              <View className="mr-4 h-10 w-10 items-center justify-center rounded-full bg-primary-100">
                 <Text className="text-xl">🎯</Text>
               </View>
               <View className="flex-1">
@@ -426,7 +426,7 @@ export default function ProfileScreen() {
 
             {/* Notifications */}
             <View className="mb-3 flex-row items-center rounded-2xl bg-slate-50 p-4">
-              <View className="bg-success-100 mr-4 h-10 w-10 items-center justify-center rounded-full">
+              <View className="mr-4 h-10 w-10 items-center justify-center rounded-full bg-success-100">
                 <Text className="text-xl">🔔</Text>
               </View>
               <View className="flex-1">
@@ -443,7 +443,7 @@ export default function ProfileScreen() {
 
             {/* Daily Check-in */}
             <View className="mb-3 flex-row items-center rounded-2xl bg-slate-50 p-4">
-              <View className="bg-warning-100 mr-4 h-10 w-10 items-center justify-center rounded-full">
+              <View className="mr-4 h-10 w-10 items-center justify-center rounded-full bg-warning-100">
                 <Text className="text-xl">✅</Text>
               </View>
               <View className="flex-1">

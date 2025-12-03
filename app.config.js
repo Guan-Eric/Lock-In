@@ -7,6 +7,7 @@ export default {
     orientation: 'portrait',
     icon: './assets/lock-in-icon.jpg',
     userInterfaceStyle: 'light',
+    newArchEnabled: true,
     splash: {
       image: './assets/lock-in-icon.jpg',
       resizeMode: 'contain',
@@ -28,6 +29,8 @@ export default {
       predictiveBackGestureEnabled: false,
     },
     web: {
+      bundler: 'metro',
+      output: 'static',
       favicon: './assets/lock-in-icon.jpg',
     },
     plugins: [

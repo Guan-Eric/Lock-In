@@ -16,10 +16,8 @@ function Index() {
       try {
         if (!user) {
           // No user - navigate after interactions complete
-          InteractionManager.runAfterInteractions(() => {
-            router.replace('/welcome');
-            setLoading(false);
-          });
+          router.replace('/welcome');
+          setLoading(false);
           return;
         }
 
@@ -27,10 +25,8 @@ function Index() {
         const userDoc = await getDoc(userRef);
 
         if (!userDoc.exists()) {
-          InteractionManager.runAfterInteractions(() => {
-            router.replace('/set-goal');
-            setLoading(false);
-          });
+          router.replace('/set-goal');
+          setLoading(false);
           return;
         }
 
@@ -38,32 +34,23 @@ function Index() {
 
         // If onboarding not complete → go to onboarding
         if (!userData.onboardingCompleted) {
-          InteractionManager.runAfterInteractions(() => {
-            router.replace('/set-goal');
-            setLoading(false);
-          });
+          router.replace('/set-goal');
+          setLoading(false);
           return;
         }
 
         // ✅ Check subscription via RevenueCat
         const customerInfo = await Purchases.getCustomerInfo();
-        const hasPro = !!customerInfo.entitlements.active['Pro'];
-        console.log('hasPro', hasPro);
-        console.log('customerInfo', customerInfo);
-        InteractionManager.runAfterInteractions(() => {
-          if (hasPro) {
-            router.replace('/(tabs)/(home)/home');
-          } else {
-            router.replace('/paywall');
-          }
-          setLoading(false);
-        });
+        if (customerInfo.entitlements.active['Pro']) {
+          router.replace('/(tabs)/(home)/home');
+        } else {
+          router.replace('/paywall');
+        }
+        setLoading(false);
       } catch (error) {
         console.error('Error in auth check:', error);
-        InteractionManager.runAfterInteractions(() => {
-          router.replace('/welcome');
-          setLoading(false);
-        });
+        router.replace('/welcome');
+        setLoading(false);
       }
     });
   };

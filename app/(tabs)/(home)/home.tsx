@@ -195,11 +195,11 @@ export default function HomeScreen() {
               style={{ borderRadius: 24 }}>
               <View className="relative py-6">
                 {/* Background decoration */}
-                <View className="absolute -top-8 -right-8 h-32 w-32 rounded-full bg-white opacity-10" />
+                <View className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-white opacity-10" />
                 <View className="absolute -bottom-4 -left-4 h-24 w-24 rounded-full bg-white opacity-10" />
 
                 {/* Level Badge */}
-                <View className="absolute top-4 left-4 rounded-full bg-white/25 px-4 py-1.5">
+                <View className="absolute left-4 top-4 rounded-full bg-white/25 px-4 py-1.5">
                   <Text className="text-xs font-bold text-white">
                     Level {level} {titleEmoji}
                   </Text>
@@ -254,13 +254,13 @@ export default function HomeScreen() {
               <View className="border-t border-slate-200 pt-4">
                 <View className="mb-2 flex-row items-center justify-between">
                   <Text className="text-sm font-bold text-slate-700">XP Progress</Text>
-                  <Text className="text-primary-600 text-sm font-bold">
+                  <Text className="text-sm font-bold text-primary-600">
                     {currentXP} / {xpToNextLevel} XP
                   </Text>
                 </View>
                 <View className="h-2 overflow-hidden rounded-full bg-slate-200">
                   <View
-                    className="bg-primary-500 h-2 rounded-full"
+                    className="h-2 rounded-full bg-primary-500"
                     style={{ width: `${xpProgress}%` }}
                   />
                 </View>
@@ -284,14 +284,14 @@ export default function HomeScreen() {
                   key={quest.id}
                   className={`flex-row items-center rounded-xl p-4 ${
                     quest.completed
-                      ? 'border-primary-200 bg-primary-50 mb-3 border-2'
+                      ? 'mb-3 border-2 border-primary-200 bg-primary-50'
                       : 'mb-3 border-2 border-slate-200 bg-slate-50'
                   }`}>
                   {/* Checkbox */}
                   <View
                     className={`mr-3 h-6 w-6 items-center justify-center rounded-full ${
                       quest.completed
-                        ? 'border-success-600 bg-success-500 border-2'
+                        ? 'border-2 border-success-600 bg-success-500'
                         : 'border-2 border-slate-300 bg-white'
                     }`}>
                     {quest.completed && <Text className="text-xs font-bold text-white">✓</Text>}
@@ -310,7 +310,7 @@ export default function HomeScreen() {
                     {!quest.completed && quest.progress !== undefined && (
                       <View className="mt-1 h-1 overflow-hidden rounded-full bg-slate-200">
                         <View
-                          className="bg-primary-400 h-1 rounded-full"
+                          className="h-1 rounded-full bg-primary-400"
                           style={{ width: `${Math.min(quest.progress, 100)}%` }}
                         />
                       </View>
@@ -339,17 +339,17 @@ export default function HomeScreen() {
 
           {/* Quick Stats */}
           <View className="mx-6 mb-4">
-            <View className="border-warning-200 bg-warning-50 rounded-2xl border p-4">
+            <View className="rounded-2xl border border-warning-200 bg-warning-50 p-4">
               <View className="flex-row justify-between">
                 <View className="flex-1">
-                  <Text className="text-warning-900 mb-1 text-xs">
+                  <Text className="mb-1 text-xs text-warning-900">
                     🎯 {sessionsToday} sessions today
                   </Text>
-                  <Text className="text-warning-900 text-xs">🏆 {badgesEarned} badges earned</Text>
+                  <Text className="text-xs text-warning-900">🏆 {badgesEarned} badges earned</Text>
                 </View>
                 <View className="flex-1 items-end">
-                  <Text className="text-warning-900 mb-1 text-xs">⚡ {totalXP} total XP</Text>
-                  <Text className="text-warning-900 text-xs">📈 Level {level}</Text>
+                  <Text className="mb-1 text-xs text-warning-900">⚡ {totalXP} total XP</Text>
+                  <Text className="text-xs text-warning-900">📈 Level {level}</Text>
                 </View>
               </View>
             </View>
@@ -357,9 +357,9 @@ export default function HomeScreen() {
 
           {/* Dynamic Tip */}
           <View className="mx-6 mb-4">
-            <View className="border-primary-200 bg-primary-50 rounded-2xl border p-4">
-              <Text className="text-primary-900 mb-1 text-xs font-bold">💡 Tip of the Day</Text>
-              <Text className="text-primary-800 text-xs leading-5">
+            <View className="rounded-2xl border border-primary-200 bg-primary-50 p-4">
+              <Text className="mb-1 text-xs font-bold text-primary-900">💡 Tip of the Day</Text>
+              <Text className="text-xs leading-5 text-primary-800">
                 {sessionsToday === 0
                   ? 'The first 30 minutes after waking up are crucial. Keep your phone away and start your day with intention.'
                   : 'Great job on your sessions! Remember to take short breaks between focus periods to maintain peak performance.'}
