@@ -28,7 +28,7 @@ export default function ActiveSession() {
   const [xpEarned, setXpEarned] = useState(0);
 
   // Fix: Use NodeJS.Timeout type for intervalRef
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const progress = useSharedValue(1);
 
@@ -122,7 +122,7 @@ export default function ActiveSession() {
   };
 
   return (
-    <View className="bg-dark-bg flex-1">
+    <View className="flex-1 bg-dark-bg">
       <StatusBar barStyle="light-content" />
 
       {/* Header with exit button */}
@@ -165,14 +165,14 @@ export default function ActiveSession() {
           {/* Time display */}
           <View className="absolute items-center justify-center">
             <Text className="text-7xl font-bold text-white">{formatTime(timeLeft)}</Text>
-            <Text className="text-dark-text-secondary mt-2 text-sm">remaining</Text>
+            <Text className="mt-2 text-sm text-dark-text-secondary">remaining</Text>
           </View>
         </View>
       </View>
 
       {/* Motivational Quote */}
-      <View className="bg-dark-surface mx-6 mb-6 rounded-2xl p-5">
-        <Text className="text-dark-text-secondary text-center text-xs leading-5 italic">
+      <View className="mx-6 mb-6 rounded-2xl bg-dark-surface p-5">
+        <Text className="text-center text-xs italic leading-5 text-dark-text-secondary">
           "Focus is the gateway to thinking clearly, learning quickly, and producing great results."
         </Text>
       </View>
@@ -180,15 +180,15 @@ export default function ActiveSession() {
       {/* Stats Row */}
       <View className="mx-6 mb-6 flex-row gap-4">
         {/* XP Earning */}
-        <View className="bg-dark-surface flex-1 items-center rounded-xl p-4">
-          <Text className="text-dark-text-secondary mb-2 text-xs">XP Earning</Text>
-          <Text className="text-success-500 text-xl font-bold">+{xpEarned}</Text>
+        <View className="flex-1 items-center rounded-xl bg-dark-surface p-4">
+          <Text className="mb-2 text-xs text-dark-text-secondary">XP Earning</Text>
+          <Text className="text-xl font-bold text-success-500">+{xpEarned}</Text>
         </View>
 
         {/* Sessions Today */}
-        <View className="bg-dark-surface flex-1 items-center rounded-xl p-4">
-          <Text className="text-dark-text-secondary mb-2 text-xs">Sessions Today</Text>
-          <Text className="text-primary-400 text-xl font-bold">
+        <View className="flex-1 items-center rounded-xl bg-dark-surface p-4">
+          <Text className="mb-2 text-xs text-dark-text-secondary">Sessions Today</Text>
+          <Text className="text-xl font-bold text-primary-400">
             {userData?.stats?.sessionsToday || 0}
           </Text>
         </View>
