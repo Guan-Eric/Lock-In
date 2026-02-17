@@ -36,13 +36,18 @@ export default function ProfileScreen() {
 
   useEffect(() => {
     const checkSubscription = async () => {
-      const customerInfo = await Purchases.getCustomerInfo();
-      if (customerInfo.entitlements.active['Pro']) {
-        setHasPro(true);
+      try {
+        const customerInfo = await Purchases.getCustomerInfo();
+        if (customerInfo.entitlements.active['Pro']) {
+          setHasPro(true);
+        }
+      } catch (e) {
+        console.error('RevenueCat error:', e);
       }
     };
     checkSubscription();
-  });
+  }, []);
+
   // Listen to user data
   useEffect(() => {
     if (!user) {

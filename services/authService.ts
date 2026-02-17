@@ -22,7 +22,6 @@ import {
   writeBatch,
 } from 'firebase/firestore';
 import { auth, db } from '../firebase';
-import { credential } from 'firebase-admin';
 
 export class AuthService {
   // Sign in anonymously

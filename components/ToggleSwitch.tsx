@@ -1,7 +1,6 @@
-import React, { useCallback, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, { useCallback, useState, useRef } from 'react';
+import { StyleSheet, View, PanResponder } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -32,7 +31,7 @@ interface SwipeButtonProps {
 
 const ToggleSwitch: React.FC<SwipeButtonProps> = ({ onToggle, title }) => {
   const X = useSharedValue(0);
-  const start = useSharedValue(0);
+  const startX = useRef(0);
   const [toggled, setToggled] = useState(false);
 
   useFocusEffect(
@@ -51,19 +50,24 @@ const ToggleSwitch: React.FC<SwipeButtonProps> = ({ onToggle, title }) => {
     }
   };
 
-  const pan = Gesture.Pan()
-    .onBegin(() => {
-      start.value = X.value;
+  const panResponder = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponder: () => true,
+      onPanResponderGrant: () => {
+        startX.current = X.value;
+      },
+      onPanResponderMove: (_, gestureState) => {
+        const newValue = startX.current + gestureState.dx;
+        X.value = Math.min(Math.max(newValue, 0), H_SWIPE_RANGE);
+      },
+      onPanResponderRelease: () => {
+        const shouldToggleOff = X.value < H_SWIPE_RANGE / 2;
+        X.value = withSpring(shouldToggleOff ? 0 : H_SWIPE_RANGE);
+        runOnJS(handleComplete)(!shouldToggleOff);
+      },
     })
-    .onUpdate((event) => {
-      const newValue = start.value + event.translationX;
-      X.value = Math.min(Math.max(newValue, 0), H_SWIPE_RANGE);
-    })
-    .onEnd(() => {
-      const shouldToggleOff = X.value < H_SWIPE_RANGE / 2;
-      X.value = withSpring(shouldToggleOff ? 0 : H_SWIPE_RANGE);
-      runOnJS(handleComplete)(!shouldToggleOff);
-    });
+  ).current;
 
   const InterpolateXInput = [0, H_SWIPE_RANGE];
 
@@ -102,28 +106,27 @@ const ToggleSwitch: React.FC<SwipeButtonProps> = ({ onToggle, title }) => {
       />
 
       {/* Swipeable circle */}
-      <GestureDetector gesture={pan}>
-        <Animated.View
-          style={[
-            styles.swipeable,
-            AnimatedStyles.swipeable,
-            { justifyContent: 'center', alignItems: 'center' },
-          ]}>
-          <Animated.Image
-            source={
-              toggled
-                ? require('../assets/locked-icon.png')
-                : require('../assets/unlocked-icon.png')
-            }
-            style={{
-              tintColor: toggled ? '#3b82f6' : '#ffffff',
-              width: 40,
-              height: 40,
-              zIndex: 4,
-            }}
-          />
-        </Animated.View>
-      </GestureDetector>
+      <Animated.View
+        {...panResponder.panHandlers}
+        style={[
+          styles.swipeable,
+          AnimatedStyles.swipeable,
+          { justifyContent: 'center', alignItems: 'center' },
+        ]}>
+        <Animated.Image
+          source={
+            toggled
+              ? require('../assets/locked-icon.png')
+              : require('../assets/unlocked-icon.png')
+          }
+          style={{
+            tintColor: toggled ? '#3b82f6' : '#ffffff',
+            width: 40,
+            height: 40,
+            zIndex: 4,
+          }}
+        />
+      </Animated.View>
 
       {/* Swipe text */}
       <Animated.Text style={[styles.swipeText, AnimatedStyles.swipeText]}>{title}</Animated.Text>
