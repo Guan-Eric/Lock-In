@@ -2,8 +2,7 @@
 import React, { useState, useRef } from 'react';
 import { View, Text, TouchableOpacity, StatusBar, Animated as RNAnimated } from 'react-native';
 import { useRouter } from 'expo-router';
-import { LinearGradient } from 'expo-linear-gradient';
-import { PanGestureHandler, State } from 'react-native-gesture-handler';
+import { State } from 'react-native-gesture-handler';
 import ToggleSwitch from '../components/ToggleSwitch';
 
 export default function HowItWorksScreen() {
